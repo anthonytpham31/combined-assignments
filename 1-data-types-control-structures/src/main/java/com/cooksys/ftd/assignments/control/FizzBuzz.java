@@ -1,5 +1,7 @@
 package com.cooksys.ftd.assignments.control;
 
+import java.util.Iterator;
+
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
@@ -26,7 +28,16 @@ public class FizzBuzz {
      * @throws IllegalArgumentException if b is zero
      */
     public static boolean divides(int a, int b) throws IllegalArgumentException {
-        throw new NotImplementedException();
+          
+        if(b == 0){
+        	throw new IllegalArgumentException();
+        }
+        else if(a % b == 0) {
+        	return true;
+		}
+        else{
+        	return false;
+        }
     }
 
     /**
@@ -40,8 +51,22 @@ public class FizzBuzz {
      * @param n the number to generate a message for
      * @return a message according to the format above, or null if n is not divisible by either 3 or 5
      */
-    public static String message(int n) {
-        throw new NotImplementedException();
+    public static String message(int n) throws IllegalArgumentException {
+    	
+    String output = n + "";	
+    	
+    	if(n % 3 == 0 && n % 5 == 0){
+    		return output + ": FizzBuzz"; 
+    	}
+    	else if(n % 5 == 0){
+    		return output + ": Buzz";
+    	}
+    	else if(n % 3  == 0){
+    		return output + ": Fizz";
+    	}
+    	else{
+    		return null;
+    	}
     }
 
     /**
@@ -55,7 +80,29 @@ public class FizzBuzz {
      * @throws IllegalArgumentException if the given end is less than the given start
      */
     public static String[] messages(int start, int end) throws IllegalArgumentException {
-        throw new NotImplementedException();
+    	
+    	if(end < start){
+    		throw new IllegalArgumentException();
+    	}
+    	
+    	int counter = 0;
+    	
+    	for(int i = start; i < end; i++) {
+    		if (message(i) != null) {	
+			counter = counter + 1;
+			}
+    	}
+    	
+    	String[] messageArray = new String[counter];
+    	int count2 = 0;
+    	
+    	for(int i = start; i < end; i++) {
+    		if (message(i) != null) {	
+			messageArray[count2] = message(i);
+			count2++;
+			}
+    	}
+    	return messageArray;
     }
 
     /**
@@ -63,7 +110,11 @@ public class FizzBuzz {
      * the relevant messages to sysout
      */
     public static void main(String[] args) {
-        throw new NotImplementedException();
+        
+    	for(int i = 1; i <=  115; i++){
+    		message(i);
+    		System.out.println(message(i));
+    	}
     }
 
 }
