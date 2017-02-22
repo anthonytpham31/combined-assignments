@@ -22,6 +22,7 @@ public class Rational implements IRational {
     	if(denominator == 0){
     		throw new IllegalArgumentException();
     	}
+    	
     	this.numerator = numerator;
     	this.denominator = denominator;
     }
@@ -56,6 +57,7 @@ public class Rational implements IRational {
     @Override
     public Rational construct(int numerator, int denominator) throws IllegalArgumentException {
         
+    	//This is implemented from InterfaceRational
     	if(denominator == 0){
     		throw new IllegalArgumentException();
     	}
@@ -71,7 +73,13 @@ public class Rational implements IRational {
      */
     @Override
     public boolean equals(Object obj) {
-        throw new NotImplementedException();
+        
+    	if(this.equals(obj)){
+    		return true;
+    	}
+    	else{
+    		return false;
+    	}
     }
 
     /**
@@ -83,6 +91,16 @@ public class Rational implements IRational {
      */
     @Override
     public String toString() {
-        throw new NotImplementedException();
+        
+    	
+    	if(this.getNumerator() > 0){
+    		String positive = "numerator/denominator";
+			return positive ;
+    	}
+    	else{
+    		String negative = "-numerator/denominator";
+    		return negative;
+    	}
+    		
     }
 }

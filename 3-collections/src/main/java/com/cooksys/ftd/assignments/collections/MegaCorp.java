@@ -9,6 +9,7 @@ import java.util.*;
 
 public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
 
+	HashSet<Capitalist> hierarchy = new HashSet<Capitalist>();
     /**
      * Adds a given element to the hierarchy.
      * <p>
@@ -29,7 +30,28 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
      */
     @Override
     public boolean add(Capitalist capitalist) {
-        throw new NotImplementedException();
+    	
+    	//If element is in the hierarchy
+    	if(hierarchy.contains(capitalist)){
+    		return false;
+    	}
+    	//if element has a parent, but not part of hierarchy	
+    	if(capitalist.hasParent() == true && hierarchy.contains(capitalist.getParent()) == false){
+    		hierarchy.add(capitalist.getParent());
+    		hierarchy.add(capitalist);
+    		return true;
+    	}
+    	//No parent but is a parent itself
+    	if(capitalist.hasParent() == false && capitalist.getParent() == null){
+    		hierarchy.add(capitalist);
+    		return true;
+    	}
+    	//No parent and not a parent itself
+    	if(capitalist.hasParent() == false){
+    		return false;
+    	}
+    	
+    	return true;
     }
 
     /**
@@ -38,7 +60,11 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
      */
     @Override
     public boolean has(Capitalist capitalist) {
-        throw new NotImplementedException();
+        
+    	if(hierarchy.contains(capitalist)){
+    		return true;
+    	}
+    	return false;
     }
 
     /**
@@ -47,7 +73,8 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
      */
     @Override
     public Set<Capitalist> getElements() {
-        throw new NotImplementedException();
+        //System.out.println(hierarchy);
+    	return hierarchy;
     }
 
     /**
