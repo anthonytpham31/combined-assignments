@@ -1,5 +1,7 @@
 package com.cooksys.ftd.assignments.control;
 
+import java.util.Arrays;
+
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
@@ -28,8 +30,14 @@ public class Fibonacci {
     	if(i < 0){
     		throw new IllegalArgumentException();
     	}
-    	//Work in Progress
-		return 0;
+    	else if(i == 0 || i == 1){
+    		return 1;	
+    	}
+    	
+    	int[] arrayStore = new int[i+1];
+    	arrayStore = fibonacci(i+1);
+
+    	return arrayStore[i];
     }
 
 	/**
@@ -48,20 +56,22 @@ public class Fibonacci {
     		throw new IllegalArgumentException();
     	}
     	
-    	int sliceSizeCounter = 0;
-    	
     	if(start == 0 && end == 0){	
     	}
     	
+    	int[] wholeArray = new int[end];
+    	wholeArray = fibonacci(end);
+    	
+    	int[] sliceArray = new int[end - start];
+    	int sliceCounter = 0;
+    	
     	for(int i = start; i < end; i++){
-    		sliceSizeCounter = sliceSizeCounter + 1;
+    		sliceArray[sliceCounter] = wholeArray[i];
+    		sliceCounter = sliceCounter + 1;
     	}
+
+    	return sliceArray;
     	
-    	int[] slice = new int[sliceSizeCounter];
-    	
-    	slice = fibonacci(sliceSizeCounter);
-    	
-    	return slice;
     }
 
     /**
@@ -93,7 +103,7 @@ public class Fibonacci {
     		fibonacciArray[1] = 1;
     		fibonacciArray[i] = fibonacciArray[i - 1] + fibonacciArray[i - 2];
     	}
-    	
+
     	return fibonacciArray;
     }
 }
