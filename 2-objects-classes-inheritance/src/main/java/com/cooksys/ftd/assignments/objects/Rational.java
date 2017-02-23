@@ -74,12 +74,12 @@ public class Rational implements IRational {
     @Override
     public boolean equals(Object obj) {
         
-    	if(this.equals(obj)){
-    		return true;
+    	if(obj instanceof Rational){
+    		if(((Rational) obj).getNumerator() == this.numerator && ((Rational) obj).getDenominator() == this.denominator){
+    			return true;
+    		}
     	}
-    	else{
-    		return false;
-    	}
+    	return false;
     }
 
     /**
@@ -92,15 +92,11 @@ public class Rational implements IRational {
     @Override
     public String toString() {
         
-    	
-    	if(this.getNumerator() > 0){
-    		String positive = "numerator/denominator";
-			return positive ;
-    	}
-    	else{
-    		String negative = "-numerator/denominator";
-    		return negative;
-    	}
+    	String output = new String();
+    	//Idea is to get num/den cases (++ +- --) and return a string
+    	if(this.numerator > 0 && this.denominator > 0){
     		
+    	}
+    	return output;
     }
 }
