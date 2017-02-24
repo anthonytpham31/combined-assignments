@@ -92,11 +92,20 @@ public class Rational implements IRational {
     @Override
     public String toString() {
         
-    	String output = new String();
-    	//Idea is to get num/den cases (++ +- --) and return a string
+    	String display = new String();
+    	
     	if(this.numerator > 0 && this.denominator > 0){
-    		
+    		display = display + this.numerator + "/" + this.denominator;
     	}
-    	return output;
+    	else if(this.numerator < 0 && this.denominator < 0){
+    		display = display + (-1)*this.numerator + "/" + (-1)*this.denominator;
+    	}
+    	else if (this.numerator > 0 && this.denominator < 0){
+    		display = display + (-1)*this.numerator + "/" + (-1)*this.denominator;
+    	}
+    	else if (this.numerator < 0 && this.denominator > 0){
+    		display = display + this.numerator + "/" + this.denominator;
+    	}
+    	return display;
     }
 }
