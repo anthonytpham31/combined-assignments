@@ -5,25 +5,49 @@ import com.cooksys.ftd.assignments.file.model.Instructor;
 import com.cooksys.ftd.assignments.file.model.Session;
 import com.cooksys.ftd.assignments.file.model.Student;
 
+import javax.naming.spi.DirectoryManager;
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
+
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Main {
 
+//	public static File[] studentFiles(){
+//	
+//		File files = new File("./input/memphis/08-08-2016/students");
+//		File[] studentFolder = files.listFiles();
+//		
+//		return studentFolder; 
+	}
     /**
      * Creates a {@link Student} object using the given studentContactFile.
      * The studentContactFile should be an XML file containing the marshaled form of a
      * {@link Contact} object.
      *
      * @param studentContactFile the XML file to use
-     * @param jaxb the JAXB context to use
+     * @param jaxb the JAXB context to usehb
      * @return a {@link Student} object built using the {@link Contact} data in the given file
      */
-    public static Student readStudent(File studentContactFile, JAXBContext jaxb) {
-        return null; // TODO
-    }
 
+	public static Student readStudent(File studentContactFile, JAXBContext jaxb) {
+        	
+		try {
+			Unmarshaller unmarshall = jaxb.createUnmarshaller();
+			Contact holdContact = (Contact) unmarshall.unmarshal(studentContactFile);
+			Student holdStudent = new Student();
+			holdStudent.setContact(holdContact);
+			return holdStudent;
+			//create student object to return contact as student object
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+ 
     /**
      * Creates a list of {@link Student} objects using the given directory of student contact files.
      *
@@ -32,7 +56,25 @@ public class Main {
      * @return a list of {@link Student} objects built using the contact files in the given directory
      */
     public static List<Student> readStudents(File studentDirectory, JAXBContext jaxb) {
-        return null; // TODO
+        
+    	try { 
+			Unmarshaller unmarshall = jaxb.createUnmarshaller();
+			Student holdStudent = new Student();
+			File[] studentFolder = studentDirectory.listFiles();
+			List<Student> studentArrayList = new ArrayList<>();
+			
+			for (File file : studentFolder) {
+				Contact holdContact = (Contact) unmarshall.unmarshal(file);
+				holdStudent.setContact(holdContact);
+				studentArrayList.add(holdStudent);
+			}
+			
+			return studentArrayList; 
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
     }
 
     /**
@@ -101,6 +143,7 @@ public class Main {
      *      </session>
      */
     public static void main(String[] args) {
-        // TODO
+        
+
     }
 }
