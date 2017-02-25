@@ -161,7 +161,6 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
     	FatCat parent;
     	parent = capitalist.getParent();
     	
-    	
     	while(parent != null){
     		if(hierarchyMegaCorp.contains(parent)){
     			parentList.add(parent);
@@ -172,11 +171,6 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
     			return parentList;
     		}
     	}
-    	
-    	if(capitalist.hasParent() == false){
-    		parentList.clear();
-    	}
-    	
     	
     	return parentList;
     }
