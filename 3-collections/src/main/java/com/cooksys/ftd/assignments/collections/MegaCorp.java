@@ -36,17 +36,17 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
     	if(capitalist == null){
     		return false;
     	}
-    	if(hierarchyMegaCorp.contains(capitalist)){
+    	if(has(capitalist)){
     		return false;
     	}	
-    	if(capitalist.hasParent() && !hierarchyMegaCorp.contains(capitalist.getParent())){
+    	if(capitalist.hasParent() && !has(capitalist.getParent())){
     		if(add(capitalist.getParent())){
     			//Add parent and child after checking if parent exist using recursion
     			hierarchyMegaCorp.add(capitalist);
     			return true;
     		}
     	}
-    	if(capitalist.hasParent() && hierarchyMegaCorp.contains(capitalist.getParent())){
+    	if(capitalist.hasParent() && has(capitalist.getParent())){
     		hierarchyMegaCorp.add(capitalist);
     		return true;
     	}
@@ -171,7 +171,7 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
     			return parentList;
     		}
     	}
-    	
+   	
     	return parentList;
     }
 }
