@@ -36,19 +36,18 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
     	if(capitalist == null){
     		return false;
     	}
-    	if(has(capitalist)){
+    	if(hierarchyMegaCorp.contains(capitalist)){
     		return false;
     	}	
-    	if(capitalist.hasParent() && !has(capitalist.getParent())){
+    	if(capitalist.hasParent() && !hierarchyMegaCorp.contains(capitalist.getParent())){
     		if(add(capitalist.getParent())){
     			//Add parent and child after checking if parent exist using recursion
     			hierarchyMegaCorp.add(capitalist);
     			return true;
     		}
     	}
-    	if(capitalist.hasParent() && has(capitalist.getParent())){
+    	if(capitalist.hasParent() && hierarchyMegaCorp.contains(capitalist.getParent())){
     		hierarchyMegaCorp.add(capitalist);
-    		return true;
     	}
     	if(capitalist.hasParent() == false && capitalist instanceof FatCat){
     		hierarchyMegaCorp.add(capitalist);
@@ -132,13 +131,9 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
     @Override
     public Map<FatCat, Set<Capitalist>> getHierarchy() {
     	
-    	HashMap<FatCat, Set<Capitalist>> mapHierarchy = new HashMap<>();
+    	Map<FatCat, Set<Capitalist>> mapHierarchy = new HashMap<>();
+
     	
-    	for (Capitalist parent : hierarchyMegaCorp) {
-    		if(parent instanceof FatCat){
-    			mapHierarchy.put((FatCat) parent, getChildren((FatCat) parent));
-    		}
-		}
     	
     	return mapHierarchy;
     }
@@ -151,26 +146,19 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
      */
     @Override
     public List<FatCat> getParentChain(Capitalist capitalist) {
-    	  
+    	
     	ArrayList<FatCat> parentList = new ArrayList<FatCat>();
     	
     	if(capitalist == null){
     		return parentList;
     	}
     	
-    	FatCat parent;
-    	parent = capitalist.getParent();
-    	
-    	while(parent != null){
-    		if(has(parent)){
-    			parentList.add(parent);
-    			parent = parent.getParent();
-    		} else{
-    			parentList.clear();
-    			return parentList;
+    	if(capitalist.hasParent()){
+    		while(capitalist.getParent() != null){
+    			parentList.add(capitalist.getParent());
     		}
     	}
-   	
+    	
     	return parentList;
     }
 }
