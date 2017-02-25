@@ -48,6 +48,7 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
     	}
     	if(capitalist.hasParent() && hierarchyMegaCorp.contains(capitalist.getParent())){
     		hierarchyMegaCorp.add(capitalist);
+    		return true;
     	}
     	if(capitalist.hasParent() == false && capitalist instanceof FatCat){
     		hierarchyMegaCorp.add(capitalist);
@@ -131,9 +132,13 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
     @Override
     public Map<FatCat, Set<Capitalist>> getHierarchy() {
     	
-    	Map<FatCat, Set<Capitalist>> mapHierarchy = new HashMap<>();
-
+    	HashMap<FatCat, Set<Capitalist>> mapHierarchy = new HashMap<>();
     	
+    	for (Capitalist parent : hierarchyMegaCorp) {
+    		if(parent instanceof FatCat){
+    			mapHierarchy.put((FatCat) parent, getChildren((FatCat) parent));
+    		}
+		}
     	
     	return mapHierarchy;
     }
@@ -146,7 +151,7 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
      */
     @Override
     public List<FatCat> getParentChain(Capitalist capitalist) {
-    	
+    	  
     	ArrayList<FatCat> parentList = new ArrayList<FatCat>();
     	
     	if(capitalist == null){
@@ -155,6 +160,7 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
     	
     	FatCat parent;
     	parent = capitalist.getParent();
+    	
     	
     	while(parent != null){
     		if(hierarchyMegaCorp.contains(parent)){
@@ -166,6 +172,11 @@ public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
     			return parentList;
     		}
     	}
+    	
+    	if(capitalist.hasParent() == false){
+    		parentList.clear();
+    	}
+    	
     	
     	return parentList;
     }
