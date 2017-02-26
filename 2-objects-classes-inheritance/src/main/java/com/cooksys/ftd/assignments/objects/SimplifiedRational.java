@@ -1,9 +1,14 @@
 package com.cooksys.ftd.assignments.objects;
 
+import java.util.Arrays;
+
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class SimplifiedRational implements IRational {
-    /**
+    
+	private int numerator;
+	private int denominator;
+	/**
      * Determines the greatest common denominator for the given values
      *
      * @param a the first value to consider
@@ -12,7 +17,16 @@ public class SimplifiedRational implements IRational {
      * @throws IllegalArgumentException if a <= 0 or b < 0
      */
     public static int gcd(int a, int b) throws IllegalArgumentException {
-        throw new NotImplementedException();
+        
+    	if(a <= 0 || b < 0){
+    		throw new IllegalArgumentException();
+    	}
+    	if(b == 0){
+    		return a;
+        }
+    	else{
+    		return gcd(b,a % b);
+    	}
     }
 
     /**
@@ -29,7 +43,17 @@ public class SimplifiedRational implements IRational {
      * @throws IllegalArgumentException if the given denominator is 0
      */
     public static int[] simplify(int numerator, int denominator) throws IllegalArgumentException {
-        throw new NotImplementedException();
+        
+    	if(denominator == 0 ){
+    		throw new IllegalArgumentException();
+    	}
+    	
+    	int[] repArray = new int[2];
+    	
+    	repArray[0] = numerator/gcd(Math.abs(numerator),Math.abs(denominator));
+    	repArray[1] = denominator/gcd(Math.abs(numerator),Math.abs(denominator));
+    	
+    	return repArray;
     }
 
     /**
@@ -45,7 +69,16 @@ public class SimplifiedRational implements IRational {
      * @throws IllegalArgumentException if the given denominator is 0
      */
     public SimplifiedRational(int numerator, int denominator) throws IllegalArgumentException {
-        throw new NotImplementedException();
+    	
+    	if(denominator == 0){
+    		throw new IllegalArgumentException();
+    	}
+
+    	if(numerator != 0){
+    		this.numerator = simplify(numerator,denominator)[0];
+    		this.denominator = simplify(numerator,denominator)[1];
+    	}
+
     }
 
     /**
@@ -53,7 +86,7 @@ public class SimplifiedRational implements IRational {
      */
     @Override
     public int getNumerator() {
-        throw new NotImplementedException();
+        return this.numerator;
     }
 
     /**
@@ -61,7 +94,7 @@ public class SimplifiedRational implements IRational {
      */
     @Override
     public int getDenominator() {
-        throw new NotImplementedException();
+        return this.denominator;
     }
 
     /**
@@ -77,7 +110,12 @@ public class SimplifiedRational implements IRational {
      */
     @Override
     public SimplifiedRational construct(int numerator, int denominator) throws IllegalArgumentException {
-        throw new NotImplementedException();
+    	
+    	if(denominator == 0){
+    		throw new IllegalArgumentException();
+    	}
+    	
+    	return new SimplifiedRational(numerator,denominator); 
     }
 
     /**
@@ -88,7 +126,13 @@ public class SimplifiedRational implements IRational {
      */
     @Override
     public boolean equals(Object obj) {
-        throw new NotImplementedException();
+    	
+    	if(obj instanceof SimplifiedRational){
+    		if(((SimplifiedRational) obj).getNumerator() == this.numerator && ((SimplifiedRational) obj).getDenominator() == this.denominator){
+    			return true;
+    		}
+    	}
+    	return false;
     }
 
     /**
@@ -100,6 +144,25 @@ public class SimplifiedRational implements IRational {
      */
     @Override
     public String toString() {
-        throw new NotImplementedException();
+    	String display = new String();
+    	
+    	if(this.numerator > 0 && this.denominator > 0){
+    		display = display + this.numerator + "/" + this.denominator;
+    	}
+    	else if(this.numerator < 0 && this.denominator < 0){
+    		display = display + (-1)*this.numerator + "/" + (-1)*this.denominator;
+    	}
+    	else if (this.numerator > 0 && this.denominator < 0){
+    		display = display + (-1)*this.numerator + "/" + (-1)*this.denominator;
+    	}
+    	else if (this.numerator < 0 && this.denominator > 0){
+    		display = display + this.numerator + "/" + this.denominator;
+    	}
+    	return display;
     }
+    public static void main(String[] args) {
+		gcd(48,8);
+    	simplify(48,8);
+		
+	}
 }

@@ -3,11 +3,7 @@ package com.cooksys.ftd.assignments.collections;
 import com.cooksys.ftd.assignments.collections.hierarchy.Hierarchy;
 import com.cooksys.ftd.assignments.collections.model.Capitalist;
 import com.cooksys.ftd.assignments.collections.model.FatCat;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import java.util.*;
-
-import javax.swing.tree.DefaultTreeCellEditor.EditorContainer;
 
 public class MegaCorp implements Hierarchy<Capitalist, FatCat> {
 

@@ -1,7 +1,5 @@
 package com.cooksys.ftd.assignments.collections.model;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 public class WageSlave implements Capitalist {
 
 	private String name;

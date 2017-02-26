@@ -102,6 +102,7 @@ public class FizzBuzz {
 			count2++;
 			}
     	}
+    	System.out.println(messageArray);
     	return messageArray;
     }
 
@@ -112,7 +113,6 @@ public class FizzBuzz {
     public static void main(String[] args) {
         
     	for(int i = 1; i <=  115; i++){
-    		message(i);
     		System.out.println(message(i));
     	}
     }
