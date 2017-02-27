@@ -1,8 +1,4 @@
-package com.cooksys.ftd.assignments.control;
-
-import java.util.Arrays;
-
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+package com.cooksys.ftd.assignments.control; 
 
 /**
  * The Fibonacci sequence is simply and recursively defined: the first two elements are `1`, and
@@ -30,14 +26,7 @@ public class Fibonacci {
     	if(i < 0){
     		throw new IllegalArgumentException();
     	}
-    	else if(i == 0 || i == 1){
-    		return 1;	
-    	}
-    	
-    	int[] arrayStore = new int[i+1];
-    	arrayStore = fibonacci(i+1);
-
-    	return arrayStore[i];
+    	return fibonacci(i+1)[i];
     }
 
 	/**

@@ -1,8 +1,21 @@
 package com.cooksys.ftd.assignments.socket;
 
+import com.cooksys.ftd.assignments.socket.model.Config;
+import com.cooksys.ftd.assignments.socket.model.LocalConfig;
 import com.cooksys.ftd.assignments.socket.model.Student;
 
+import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
 public class Server extends Utils {
 
@@ -14,7 +27,18 @@ public class Server extends Utils {
      * @return a {@link Student} object unmarshalled from the given file path
      */
     public static Student loadStudent(String studentFilePath, JAXBContext jaxb) {
-        return null; // TODO
+        
+		try {
+			
+			File studentFile = new File(studentFilePath);			
+			Unmarshaller unmarshall = jaxb.createUnmarshaller();
+			Student studentConfig = (Student) unmarshall.unmarshal(studentFile);
+			return studentConfig;
+			
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+		return null;
     }
 
     /**
@@ -30,6 +54,28 @@ public class Server extends Utils {
      * Following this transaction, the server may shut down or listen for more connections.
      */
     public static void main(String[] args) {
-        // TODO
+        
+    	try {
+    		String configFilePath = "./config/config.xml";
+    		JAXBContext jaxb = Utils.createJAXBContext(); 
+    		
+    		Config wholeConfig = loadConfig(configFilePath,jaxb);
+    		Student studentConfig = loadStudent(wholeConfig.getStudentFilePath(),jaxb);
+    		LocalConfig localConfig = wholeConfig.getLocal();
+    		
+    		FileWriter fstream = new FileWriter(configFilePath);
+    		BufferedWriter out = new BufferedWriter(fstream);
+    		//output stream is wrong, need to fix filewriter
+    		Marshaller marshal = jaxb.createMarshaller();
+    		marshal.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+    		marshal.marshal(studentConfig, out);
+    		
+    		ServerSocket serverSocket = new ServerSocket(localConfig.getPort());
+			Socket clientSocket = serverSocket.accept();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	
     }
 }

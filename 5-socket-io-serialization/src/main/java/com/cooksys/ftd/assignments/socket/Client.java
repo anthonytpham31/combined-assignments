@@ -1,5 +1,7 @@
 package com.cooksys.ftd.assignments.socket;
 
+import com.cooksys.ftd.assignments.socket.Utils;
+
 public class Client {
 
     /**
