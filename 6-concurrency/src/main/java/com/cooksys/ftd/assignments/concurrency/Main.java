@@ -1,6 +1,12 @@
 package com.cooksys.ftd.assignments.concurrency;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import com.cooksys.ftd.assignments.concurrency.model.config.Config;
+
+
 
 public class Main {
 
@@ -15,6 +21,31 @@ public class Main {
      * is not disabled, create a {@link Client} object with the client config and spin off a thread to run it.
      */
     public static void main(String[] args) {
-       throw new NotImplementedException();
+    	
+    	Path filePath = Paths.get("config/config.xml");
+    	Config configSource = Config.load(filePath);
+    	
+    	boolean serverIsDisabled = configSource.getServer().isDisabled();
+    	boolean clientIsDisabled = configSource.getClient().isDisabled();
+    	
+        if(serverIsDisabled && clientIsDisabled) {
+        	System.out.println("Both Client & Server is Disabled");
+        }
+    	
+    	if (serverIsDisabled == false) {
+     	   Server server = new Server(configSource.getServer());
+     	   Thread serverThread = new Thread(server);
+     	   serverThread.start();
+        } else {
+        	System.out.println("Server Is Disabled");
+        }
+        
+        if (clientIsDisabled == false) {
+     	   Client client = new Client(configSource.getClient());
+     	   Thread clientThread = new Thread(client);
+     	   clientThread.start(); 
+        } else {
+        	System.out.println("Client Is Disabled");
+        }
     }
 }
