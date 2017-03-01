@@ -1,6 +1,9 @@
 package com.cooksys.ftd.assignments.socket;
 
 import com.cooksys.ftd.assignments.socket.model.Config;
+import com.cooksys.ftd.assignments.socket.model.LocalConfig;
+import com.cooksys.ftd.assignments.socket.model.RemoteConfig;
+import com.cooksys.ftd.assignments.socket.model.Student;
 
 import java.io.File;
 
@@ -19,7 +22,7 @@ public class Utils {
     public static JAXBContext createJAXBContext() {
         
     	try {
-        	JAXBContext jaxb = JAXBContext.newInstance(Client.class,Server.class);
+        	JAXBContext jaxb = JAXBContext.newInstance(Config.class,Student.class,RemoteConfig.class,LocalConfig.class);
 			return jaxb;
         } catch (JAXBException e) {
 			e.printStackTrace();
@@ -39,10 +42,10 @@ public class Utils {
     public static Config loadConfig(String configFilePath, JAXBContext jaxb) {
         
 		try {
-			File configurationFile = new File(configFilePath);
-			Unmarshaller unmarshall= jaxb.createUnmarshaller();
-			Config configObject = (Config) unmarshall.unmarshal(configurationFile);
-			return configObject;
+			Unmarshaller unmarshConfig= jaxb.createUnmarshaller();
+			Config config = (Config) unmarshConfig.unmarshal(new File(configFilePath));
+			return config;
+			
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}

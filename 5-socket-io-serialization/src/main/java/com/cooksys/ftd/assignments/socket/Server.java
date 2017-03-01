@@ -5,10 +5,17 @@ import com.cooksys.ftd.assignments.socket.model.LocalConfig;
 import com.cooksys.ftd.assignments.socket.model.Student;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -56,26 +63,32 @@ public class Server extends Utils {
     public static void main(String[] args) {
         
     	try {
-    		String configFilePath = "./config/config.xml";
-    		JAXBContext jaxb = Utils.createJAXBContext(); 
+
+        	String configFilePath = "C:/Users/student-4/combined-assignments/5-socket-io-serialization/config/config.xml";
+        	JAXBContext jaxb = Utils.createJAXBContext(); 
+        	
+        	Config wholeConfig = Utils.loadConfig(configFilePath,jaxb);	
+        	Student studentConfig = loadStudent(wholeConfig.getStudentFilePath(),jaxb);
+        	LocalConfig localConfig = wholeConfig.getLocal();
+        		
+        	ServerSocket serverSocket = new ServerSocket(localConfig.getPort());
+    		Socket clientSocket = serverSocket.accept();   		
     		
-    		Config wholeConfig = loadConfig(configFilePath,jaxb);
-    		Student studentConfig = loadStudent(wholeConfig.getStudentFilePath(),jaxb);
-    		LocalConfig localConfig = wholeConfig.getLocal();
+        	OutputStreamWriter fStreamOut = new OutputStreamWriter(clientSocket.getOutputStream());
+        	BufferedWriter out = new BufferedWriter(fStreamOut);
+        		
+        	Marshaller marshalOut = jaxb.createMarshaller();
+        	marshalOut.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        	marshalOut.marshal(studentConfig, out);;
+        	
+        	out.flush();
+    		clientSocket.close();
+    		serverSocket.close();
+    		out.close();	
     		
-    		FileWriter fstream = new FileWriter(configFilePath);
-    		BufferedWriter out = new BufferedWriter(fstream);
-    		//output stream is wrong, need to fix filewriter
-    		Marshaller marshal = jaxb.createMarshaller();
-    		marshal.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-    		marshal.marshal(studentConfig, out);
-    		
-    		ServerSocket serverSocket = new ServerSocket(localConfig.getPort());
-			Socket clientSocket = serverSocket.accept();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+    		} catch (IOException | JAXBException e) {
+    			e.printStackTrace();
+    		}
     	
     }
 }

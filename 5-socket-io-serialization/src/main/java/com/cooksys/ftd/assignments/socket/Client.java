@@ -5,8 +5,10 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.stream.Stream;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -33,17 +35,28 @@ public class Client {
     	try {
     		String configFilePath = "./config/config.xml";
     		JAXBContext jaxb = Utils.createJAXBContext(); 
+    		
     		Config wholeConfig = Utils.loadConfig(configFilePath,jaxb);
     		int port = wholeConfig.getRemote().getPort();
     		String host = wholeConfig.getRemote().getHost();
-			
-    		Socket clientSocket = new Socket(host, port);
+			Unmarshaller unmarshall = jaxb.createUnmarshaller();
+    		
+			Socket clientSocket = new Socket(host, port);
+
     		BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-    		
-    		Unmarshaller unmarshall = jaxb.createUnmarshaller();
-    		Student studentConfig = (Student) unmarshall.unmarshal(in);
+    		String testString = new String();
+    		StringBuffer buffString = new StringBuffer();
+
+    		while((testString = in.readLine()) != null) {
+    			//testString = testString + in.readLine();
+    			System.out.println(testString);
+    			buffString.append(testString);
+    		}
+
+    		StringReader readString = new StringReader(buffString.toString());
+    		Student studentConfig = (Student) unmarshall.unmarshal(readString);
     		System.out.println(studentConfig.toString());
-    		
+
     		clientSocket.close();
     		in.close();
     		
