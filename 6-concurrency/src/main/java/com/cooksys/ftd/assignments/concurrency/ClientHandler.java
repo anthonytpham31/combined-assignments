@@ -1,11 +1,46 @@
 package com.cooksys.ftd.assignments.concurrency;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+
+import com.cooksys.ftd.assignments.concurrency.model.message.Request;
+import com.cooksys.ftd.assignments.concurrency.model.message.RequestType;
+import com.cooksys.ftd.assignments.concurrency.model.message.Response;
 
 public class ClientHandler implements Runnable {
 
-    @Override
+    private Socket clientHandlerSocket;
+	
+	public ClientHandler (Socket clientHandlerSocket) {
+		this.clientHandlerSocket = clientHandlerSocket;
+	}
+    
+	@Override
     public void run() {
-        throw new NotImplementedException();
-    }
+		
+    	Response serverResponse = new Response();
+		String respoData = serverResponse.getData();
+		
+		RequestType reqTypeRespo = serverResponse.getType();
+
+		try {
+			JAXBContext jaxb = JAXBContext.newInstance(Response.class, Request.class, RequestType.class);
+			OutputStreamWriter fStreamOut = new OutputStreamWriter(clientHandlerSocket.getOutputStream());
+	    	BufferedWriter out = new BufferedWriter(fStreamOut);
+	    		
+	    	Marshaller marshalOut = jaxb.createMarshaller();
+	    	marshalOut.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+	    	marshalOut.marshal(respoData, out);	
+			
+		} catch (JAXBException | IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

@@ -5,6 +5,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.*;
 
+import com.cooksys.ftd.assignments.concurrency.ClientInstance;
+
 import java.io.File;
 import java.nio.file.Path;
 
@@ -21,7 +23,7 @@ public class Config {
     public static Config load(Path path) {
     	
     	try {
-    		JAXBContext jaxb = JAXBContext.newInstance(ClientConfig.class);
+    		JAXBContext jaxb = JAXBContext.newInstance(ClientConfig.class, ClientInstance.class, Config.class, ServerConfig.class);
 			File configurationFile = new File(path.toString());
 			Unmarshaller unmarshall= jaxb.createUnmarshaller();
 			Config configObject = (Config) unmarshall.unmarshal(configurationFile);
