@@ -1,5 +1,6 @@
 package com.cooksys.ftd.assignments.concurrency;
 
+import java.net.Socket;
 import java.util.List;
 
 import com.cooksys.ftd.assignments.concurrency.model.config.ClientInstanceConfig;

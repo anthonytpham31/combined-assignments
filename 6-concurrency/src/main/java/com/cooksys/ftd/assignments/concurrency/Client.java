@@ -33,8 +33,19 @@ public class Client implements Runnable {
     public void run() {
 
     	try {
+    		int numThreads = 0;
+    		
+    		while(numThreads < maxInstances) {
+    			
+    		}
 			Socket clientSocket = new Socket(host, port);
-			ClientInstance mainClientInstance = new ClientInstance(multiClientInstances, clientSocket);
+			//ClientInstanceConfig multiClientInstances = instances.get()
+			//ClientInstance mainClientInstance = new ClientInstance(multiClientInstances, clientSocket);
+			
+			for (;;) {
+				
+			}
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
