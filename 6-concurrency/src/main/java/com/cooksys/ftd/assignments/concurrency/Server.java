@@ -28,7 +28,6 @@ public class Server implements Runnable {
     public void run() {
 
 		ExecutorService pool = Executors.newFixedThreadPool(maxClients);
-		// List<Thread> threadCounter = new ArrayList<>();
 		
     	try {
     		ServerSocket serverSockets = new ServerSocket(port);
@@ -39,6 +38,7 @@ public class Server implements Runnable {
 			serverSockets.close();
 			pool.shutdown();
 			}
+    		
 		} catch (IOException e) {
 			e.printStackTrace();
 			pool.shutdown();
