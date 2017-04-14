@@ -23,7 +23,7 @@ public class Server implements Runnable {
         this.port = config.getPort();
         this.maxClients = config.getMaxClients();
     }
-
+ 
     @Override
     public void run() {
 

@@ -27,23 +27,19 @@ public class Client implements Runnable {
         this.maxInstances = config.getMaxInstances();
         this.spawnStrategy = config.getSpawnStrategy();
         this.instances = config.getInstances(); 
-    }
+    } 
 
     @Override
     public void run() {
 
     	try {
-    		int numThreads = 0;
     		
-    		while(numThreads < maxInstances) {
-    			
-    		}
-			Socket clientSocket = new Socket(host, port);
-			//ClientInstanceConfig multiClientInstances = instances.get()
-			//ClientInstance mainClientInstance = new ClientInstance(multiClientInstances, clientSocket);
-			
 			for (;;) {
 				
+			Socket clientSocket = new Socket(host, port);
+			ClientInstanceConfig multiClientInstances = instances.get(maxInstances);
+			ClientInstance mainClientInstance = new ClientInstance(multiClientInstances, clientSocket);	
+			
 			}
 			
 		} catch (IOException e) {
